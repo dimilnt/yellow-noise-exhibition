@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YELLOW NOISE — Арт-виставка сучасної синестезії</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#4B22B9',
+                            darkPurple: '#210c63',
+                            deeperPurple: '#13053d',
+                            yellow: '#EFE46B',
+                            brightYellow: '#FFE600',
+                            cardPurple: '#33158c'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Impact', 'Arial Black', 'sans-serif']
+                    },
+                    boxShadow: {
+                        neon: '0 0 25px rgba(239, 228, 107, 0.45)',
+                        glow: '0 0 40px rgba(75, 34, 185, 0.8)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome Icons & Lucide Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
+        
+        body {
+            background-color: #13053d;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Scanline / Grain Texture Effect */
+        .noise-bg {
+            background-image: radial-gradient(rgba(239, 228, 107, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .glass-panel {
+            background: rgba(33, 12, 99, 0.65);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(239, 228, 107, 0.25);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(239, 228, 107, 0.6);
+        }
+
+        /* Pulsing Glow Animation */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        .animate-glow {
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #13053d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4B22B9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #EFE46B;
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px #EFE46B;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="noise-bg min-h-screen selection:bg-brand-yellow selection:text-brand-deeperPurple">
+
+    <!-- NAVIGATION BAR -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-panel border-b border-brand-yellow/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 bg-brand-yellow rounded-lg flex items-center justify-center transform group-hover:rotate-6 transition-transform shadow-neon">
+                    <svg class="w-7 h-7 text-brand-darkPurple" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 18h18v-2l-2-4h-4l-1-2h-4l-1 2H5l-2 4v2zm2-4l1.2-2.4h3.6l1 2h2.4l1-2h3.6L19 14H5zM2 19h20v2H2z"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black text-xl tracking-wider text-brand-yellow uppercase leading-none">YELLOW NOISE</span>
+                    <span class="text-[10px] tracking-widest text-white/70 uppercase">Contemporary Synesthesia</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold uppercase tracking-wider">
+                <a href="#about" class="text-white/80 hover:text-brand-yellow transition-colors">Про виставку</a>
+                <a href="#concept" class="text-white/80 hover:text-brand-yellow transition-colors">Концепція</a>
+                <a href="#zones" class="text-white/80 hover:text-brand-yellow transition-colors">Зони</a>
+                <a href="#merch" class="text-white/80 hover:text-brand-yellow transition-colors">Мерч</a>
+                <a href="#location" class="text-white/80 hover:text-brand-yellow transition-colors">Локація</a>
+            </nav>
+
+            <!-- Actions & Tickets CTA -->
+            <div class="hidden sm:flex items-center space-x-4">
+                <button id="soundToggleBtn" onclick="toggleAudioSynthesizer()" class="p-2.5 rounded-full border border-brand-yellow/40 hover:border-brand-yellow text-brand-yellow transition-all flex items-center space-x-2 text-xs font-semibold" title="Увімкнути синестезійний звук">
+                    <i id="soundIcon" class="fas fa-volume-mute text-base"></i>
+                    <span id="soundText" class="hidden lg:inline">Звук виставки</span>
+                </button>
+                <a href="#tickets" class="bg-brand-yellow hover:bg-brand-brightYellow text-brand-deeperPurple font-extrabold px-5 py-2.5 rounded-lg shadow-neon hover:scale-105 transition-all text-sm uppercase tracking-wider flex items-center gap-2">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Квитки</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden text-brand-yellow text-2xl p-2 focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-brand-darkPurple/95 border-b border-brand-yellow/30 px-6 py-6 space-y-4">
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-lg font-bold text-white hover:text-brand-yellow">Про виставку</a>
+            <a href="#concept" onclick="toggleMobileMenu()" class="block text-lg font-bold text-white hover:text-brand-yellow">Концепція</a>
+            <a href="#zones" onclick="toggleMobileMenu()" class="block text-lg font-bold text-white hover:text-brand-yellow">Зони та Структура</a>
+            <a href="#tickets" onclick="toggleMobileMenu()" class="block text-lg font-bold text-white hover:text-brand-yellow">Придбати Квитки</a>
+            <a href="#merch" onclick="toggleMobileMenu()" class="block text-lg font-bold text-white hover:text-brand-yellow">Фірмовий Мерч</a>
+            <a href="#location" onclick="toggleMobileMenu()" class="block text-lg font-bold text-white hover:text-brand-yellow">Локація</a>
+            <div class="pt-4 flex flex-col gap-3">
+                <button onclick="toggleAudioSynthesizer()" class="w-full py-3 border border-brand-yellow text-brand-yellow rounded-lg font-bold flex items-center justify-center gap-2">
+                    <i class="fas fa-volume-up"></i> Звуковий супровід
+                </button>
+                <a href="#tickets" onclick="toggleMobileMenu()" class="w-full py-3 bg-brand-yellow text-brand-deeperPurple text-center font-extrabold rounded-lg uppercase">
+                    Купити квиток від 350 UAH
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden flex flex-col justify-center min-h-screen">
+        <!-- Ambient Glowing Background Circles -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-purple/40 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-80 h-80 bg-brand-yellow/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Column: Text & Badges -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    
+                    <!-- Top Tag -->
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-brand-yellow/40 text-brand-yellow text-xs font-bold uppercase tracking-widest animate-pulse">
+                        <span class="w-2 h-2 rounded-full bg-brand-yellow"></span>
+                        <span>Масштабна Арт-Виставка Сучасної Синестезії</span>
+                    </div>
+
+                    <!-- Main Dynamic Headline -->
+                    <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white leading-none">
+                        YELLOW <br>
+                        <span class="text-brand-yellow drop-shadow-[0_0_35px_rgba(239,228,107,0.5)]">NOISE</span>
+                    </h1>
+
+                    <!-- Subtitle / Author Tag -->
+                    <p class="text-lg sm:text-xl text-white/90 font-light max-w-2xl leading-relaxed">
+                        Трансформація міського шуму у візуально-звукову мову. Пориньте у простір, де міські вібрації перетворюються на генеративний світловий арт.
+                    </p>
+
+                    <!-- Info Cards Badges -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 max-w-xl">
+                        <div class="glass-panel p-4 rounded-xl flex items-center space-x-3 text-left border-l-4 border-l-brand-yellow">
+                            <i class="fas fa-map-marker-alt text-2xl text-brand-yellow"></i>
+                            <div>
+                                <div class="text-xs text-white/60 font-semibold uppercase">Місце проведення</div>
+                                <div class="text-sm font-bold text-white">Київ, просп. Степана Бандери, 22</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-xl flex items-center space-x-3 text-left border-l-4 border-l-brand-yellow">
+                            <i class="far fa-clock text-2xl text-brand-yellow"></i>
+                            <div>
+                                <div class="text-xs text-white/60 font-semibold uppercase">Дати та час</div>
+                                <div class="text-sm font-bold text-white">12-14 Жовтня | 10:00 - 22:00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Author Credit -->
+                    <div class="text-xs text-brand-yellow/80 font-mono tracking-wider pt-1">
+                        Автор концепції: <span class="font-bold text-white">Милтанова Діана</span> (Гд6-3-23-4.0д)
+                    </div>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-wrap gap-4 pt-4 justify-center lg:justify-start">
+                        <a href="#tickets" class="px-8 py-4 bg-brand-yellow hover:bg-brand-brightYellow text-brand-deeperPurple font-black rounded-xl shadow-neon hover:scale-105 transition-all text-base uppercase tracking-wider flex items-center gap-3">
+                            <span>Забронювати Квиток</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#interactive-canvas" class="px-8 py-4 glass-panel border border-brand-yellow/40 hover:border-brand-yellow text-white hover:text-brand-yellow font-bold rounded-xl transition-all text-base flex items-center gap-2">
+                            <i class="fas fa-wave-square text-brand-yellow"></i>
+                            <span>Створити свій шум</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Right Column: Animated Liner Interactive Graphic -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-full max-w-md aspect-square rounded-2xl p-6 glass-panel border-2 border-brand-yellow/50 shadow-glow flex flex-col justify-between overflow-hidden">
+                        
+                        <!-- Top status line -->
+                        <div class="flex justify-between items-center z-10 text-xs font-mono text-brand-yellow">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
+                                NAVIGATOR: LINER ACTIVE
+                            </span>
+                            <span>FREQ: 432Hz</span>
+                        </div>
+
+                        <!-- Stylized SVG Liner Steaming through Waves -->
+                        <div class="my-auto relative flex justify-center items-center py-6">
+                            <svg class="w-full h-auto max-h-64 drop-shadow-[0_0_20px_rgba(239,228,107,0.6)] animate-glow" viewBox="0 0 500 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Wave lines in background -->
+                                <path d="M0 250 Q 125 220 250 250 T 500 250" stroke="#4B22B9" stroke-width="4" fill="none" />
+                                <path d="M0 280 Q 125 310 250 280 T 500 280" stroke="#EFE46B" stroke-width="2" stroke-dasharray="6,6" fill="none" />
+                                
+                                <!-- Detailed Ship/Liner Silhouette in Yellow Noise Style -->
+                                <g fill="#EFE46B">
+                                    <!-- Hull -->
+                                    <path d="M40 210 L120 250 L420 250 L460 170 L380 170 L340 180 L200 180 L180 170 L80 170 Z"/>
+                                    <!-- Upper Deck Sections -->
+                                    <rect x="140" y="140" width="220" height="30" rx="3"/>
+                                    <rect x="180" y="110" width="150" height="30" rx="2"/>
+                                    <rect x="210" y="85" width="90" height="25" rx="2"/>
+                                    <!-- Funnels/Pipes -->
+                                    <rect x="230" y="45" width="20" height="40" rx="3"/>
+                                    <rect x="270" y="45" width="20" height="40" rx="3"/>
+                                    <!-- Smoke waves -->
+                                    <path d="M240 35 Q 230 20 220 15" stroke="#EFE46B" stroke-width="3" fill="none"/>
+                                    <path d="M280 35 Q 270 20 260 10" stroke="#EFE46B" stroke-width="3" fill="none"/>
+                                    <!-- Masts & Lines -->
+                                    <line x1="100" y1="170" x2="100" y2="100" stroke="#EFE46B" stroke-width="3"/>
+                                    <line x1="420" y1="170" x2="420" y2="110" stroke="#EFE46B" stroke-width="3"/>
+                                    <line x1="100" y1="100" x2="420" y2="110" stroke="#EFE46B" stroke-dasharray="3 3" stroke-width="1.5"/>
+                                </g>
+                                <!-- Water/Noise Splash Lines -->
+                                <path d="M30 220 Q 60 210 90 230" stroke="#EFE46B" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M410 240 Q 440 260 480 230" stroke="#EFE46B" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+
+                        <!-- Card Footnote -->
+                        <div class="z-10 text-center bg-brand-deeperPurple/80 py-2 px-4 rounded-lg border border-brand-yellow/30 text-xs text-white/80">
+                            <span class="text-brand-yellow font-bold">"Корабель у морі шуму"</span> — Символ стабільного навігатора в індустріальному мегаполісі
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE NOISE CANVAS GENERATOR (Synesthesia Playground) -->
+    <section id="interactive-canvas" class="py-16 bg-brand-darkPurple/60 border-y border-brand-yellow/20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+                <div>
+                    <span class="text-brand-yellow text-xs font-mono uppercase tracking-widest">// Інтерактивна Зона</span>
+                    <h2 class="text-3xl font-extrabold text-white">Інтерактивний Генератор Синестезії</h2>
+                    <p class="text-white/70 text-sm mt-1">Клікніть або проведіть курсором по полю нижче, щоб створити власні неонові хвилі звукового шуму</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="clearCanvas()" class="px-4 py-2 glass-panel hover:bg-brand-purple text-xs font-bold text-brand-yellow rounded-lg border border-brand-yellow/40 transition-all">
+                        <i class="fas fa-redo-alt mr-1"></i> Очистити Поле
+                    </button>
+                    <button onclick="changeWaveMode()" class="px-4 py-2 bg-brand-yellow text-brand-deeperPurple text-xs font-black rounded-lg hover:bg-brand-brightYellow transition-all">
+                        Змінити Режим Хвиль
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="relative rounded-2xl overflow-hidden border-2 border-brand-yellow/40 shadow-2xl bg-brand-deeperPurple cursor-crosshair">
+                <canvas id="synesthesiaCanvas" class="w-full h-80 block"></canvas>
+                <div class="absolute bottom-4 left-4 pointer-events-none text-xs font-mono text-brand-yellow/70 bg-brand-deeperPurple/80 px-3 py-1.5 rounded border border-brand-yellow/20">
+                    <i class="fas fa-hand-pointer mr-2"></i> Клікайте & водіть для створення аудіовізуального шуму
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCEPT & STORY SECTION -->
+    <section id="concept" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold text-brand-yellow uppercase tracking-widest mb-2">Філософія проекту</h2>
+                <p class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tight">Концепція: Шум Міста як Мистецтво</p>
+                <div class="w-24 h-1 bg-brand-yellow mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Card 1: Urban Noise -->
+                <div class="glass-panel p-8 sm:p-10 rounded-2xl relative group hover:-translate-y-2 transition-all duration-300 border-l-8 border-l-brand-yellow">
+                    <div class="w-14 h-14 bg-brand-yellow/10 rounded-xl flex items-center justify-center text-brand-yellow text-2xl mb-6 border border-brand-yellow/30">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white mb-4 uppercase tracking-wide">Урбаністичний Гул</h3>
+                    <p class="text-white/80 leading-relaxed text-base">
+                        Джерело постійної динаміки, індустріальних звуків та швидкості. Виставка трансформує цей повсякденний міський шум у візуальну та аудіальну мову сучасного мистецтва, даючи змогу почути те, що ми зазвичай лише бачимо, і побачити те, що чуємо.
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-white/10 flex items-center text-brand-yellow font-semibold text-sm">
+                        <span>#Синестезія #ІндустріальнийЗвук</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Ship/Liner Navigator -->
+                <div class="glass-panel p-8 sm:p-10 rounded-2xl relative group hover:-translate-y-2 transition-all duration-300 border-l-8 border-l-brand-purple">
+                    <div class="w-14 h-14 bg-brand-purple rounded-xl flex items-center justify-center text-brand-yellow text-2xl mb-6 border border-brand-yellow/30">
+                        <i class="fas fa-ship"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white mb-4 uppercase tracking-wide">Корабель у Морі Шуму</h3>
+                    <p class="text-white/80 leading-relaxed text-base">
+                        Лайнер виступає візуальним навігатором, що стабільно рухається крізь нескінченні хвилі медійного та звукового простору мегаполісу. Він спрямовує глядача крізь хаос до чистого арт-сприйняття та гармонії.
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-white/10 flex items-center text-brand-yellow font-semibold text-sm">
+                        <span>#Навігатор #МедіаПростір</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Identity Feature Highlights -->
+            <div class="mt-12 glass-panel p-8 rounded-2xl border border-brand-yellow/30 bg-gradient-to-r from-brand-darkPurple to-brand-deeperPurple">
+                <h4 class="text-xl font-extrabold text-brand-yellow mb-6 uppercase flex items-center gap-2">
+                    <i class="fas fa-palette"></i> Фірмова Структура Знаку та Ідентичність
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
+                    <div class="space-y-2">
+                        <div class="font-bold text-white text-base">Контрастна Домінанта</div>
+                        <p class="text-white/70">Глибокий фіолетовий фон (#4B22B9) та електричний жовтий (#EFE46B) забезпечують миттєве зчитування та спалах світла.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="font-bold text-white text-base">Геометрична Стійкість</div>
+                        <p class="text-white/70">Чіткі горизонталі текстового блоку утримують масивний та впізнаваний силует судна YN.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="font-bold text-white text-base">Урбаністичний Характер</div>
+                        <p class="text-white/70">Текстурне штрихування лайнера відображає концепт індустріальних перешкод, звукових вібрацій та швидкості.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- EXHIBITION STRUCTURE & ZONES -->
+    <section id="zones" class="py-24 bg-brand-darkPurple/40 relative border-t border-brand-yellow/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-yellow text-xs font-mono uppercase tracking-widest">// Архітектура виставки</span>
+                <h2 class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">Структура Простору</h2>
+                <p class="text-white/70 mt-2">Більша частина простору відведена під інтерактивну взаємодію, що стимулює відвідувачів ставати співавторами світлозвукових інсталяцій</p>
+            </div>
+
+            <!-- Zones Visual Proportion Grid & Interactive Progress Bars -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left: Distribution Chart Cards -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- Zone 1: 50% -->
+                    <div class="glass-panel p-6 rounded-2xl border-l-8 border-l-brand-yellow hover:scale-[1.01] transition-transform">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-mono text-brand-yellow font-bold uppercase">Зона 01 — Main Stage</span>
+                            <span class="text-2xl font-black text-brand-yellow">50%</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Імерсивна зона генеративного арту</h3>
+                        <p class="text-sm text-white/80 leading-relaxed mb-4">
+                            Спеціальні датчики зчитують рух глядачів та рівень навколишнього шуму, трансформуючи їх у реальному часі в абстрактні світлові проекції на стінах павільйону.
+                        </p>
+                        <!-- Progress Bar -->
+                        <div class="w-full h-3 bg-brand-deeperPurple rounded-full overflow-hidden border border-brand-yellow/30">
+                            <div class="h-full bg-brand-yellow rounded-full w-[50%]"></div>
+                        </div>
+                    </div>
+
+                    <!-- Zone 2: 30% -->
+                    <div class="glass-panel p-6 rounded-2xl border-l-8 border-l-purple-500 hover:scale-[1.01] transition-transform">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-mono text-purple-300 font-bold uppercase">Зона 02 — Gallery</span>
+                            <span class="text-2xl font-black text-purple-300">30%</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Експозиція статичних інсталяцій</h3>
+                        <p class="text-sm text-white/80 leading-relaxed mb-4">
+                            Графічні роботи, плакати, полотна та фізичні об'єкти з текстовими та візуальними кодами проекту "Yellow Noise".
+                        </p>
+                        <!-- Progress Bar -->
+                        <div class="w-full h-3 bg-brand-deeperPurple rounded-full overflow-hidden border border-brand-yellow/30">
+                            <div class="h-full bg-purple-500 rounded-full w-[30%]"></div>
+                        </div>
+                    </div>
+
+                    <!-- Zone 3: 20% -->
+                    <div class="glass-panel p-6 rounded-2xl border-l-8 border-l-white hover:scale-[1.01] transition-transform">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-mono text-white/70 font-bold uppercase">Зона 03 — Hub & Store</span>
+                            <span class="text-2xl font-black text-white">20%</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Мерч-шоп та інформаційні стійки</h3>
+                        <p class="text-sm text-white/80 leading-relaxed mb-4">
+                            Зона відпочинку, точки реєстрації, придбання брендованого сувенірного одягу, аксесуарів та консультацій.
+                        </p>
+                        <!-- Progress Bar -->
+                        <div class="w-full h-3 bg-brand-deeperPurple rounded-full overflow-hidden border border-brand-yellow/30">
+                            <div class="h-full bg-white rounded-full w-[20%]"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right: Pie Chart Dynamic Visualization -->
+                <div class="lg:col-span-5 flex flex-col items-center justify-center">
+                    <div class="glass-panel p-8 rounded-2xl border-2 border-brand-yellow/40 w-full flex flex-col items-center text-center">
+                        <h4 class="text-lg font-bold text-white uppercase mb-6">Співвідношення Простору</h4>
+                        
+                        <!-- SVG Custom Donut/Pie Visualizer -->
+                        <div class="relative w-64 h-64 my-2">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                <!-- Background Circle -->
+                                <path class="text-brand-deeperPurple" stroke-width="6" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <!-- Segment 1: 50% Yellow -->
+                                <path class="text-brand-yellow" stroke-dasharray="50, 100" stroke-width="6" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <!-- Segment 2: 30% Purple -->
+                                <path class="text-purple-500" stroke-dasharray="30, 100" stroke-dashoffset="-50" stroke-width="6" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <!-- Segment 3: 20% White -->
+                                <path class="text-white" stroke-dasharray="20, 100" stroke-dashoffset="-80" stroke-width="6" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                <span class="text-3xl font-black text-brand-yellow">100%</span>
+                                <span class="text-[10px] uppercase text-white/70 tracking-widest">Імерсивність</span>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-white/60 mt-4">
+                            Генеративне аудіосередовище реагує на кожен ваш крок
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TICKETS PURCHASING SECTION -->
+    <section id="tickets" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-yellow text-xs font-mono uppercase tracking-widest">// Станьте частиною дійства</span>
+                <h2 class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">Придбати Квиток</h2>
+                <p class="text-white/70 mt-2">Оберіть зручний формат відвідування виставки в Києві</p>
+            </div>
+
+            <!-- Ticket Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Ticket Standard -->
+                <div class="glass-panel p-8 rounded-2xl border border-brand-yellow/30 flex flex-col justify-between relative group hover:border-brand-yellow hover:scale-[1.02] transition-all">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-brand-yellow/20 text-brand-yellow text-xs font-bold rounded-full border border-brand-yellow/30 uppercase">Day Pass</span>
+                            <i class="fas fa-ticket-alt text-2xl text-brand-yellow"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white uppercase">Standard / General</h3>
+                        <p class="text-xs text-white/60 mb-6">Одноденний квиток на виставку</p>
+
+                        <div class="text-4xl font-black text-brand-yellow mb-6">
+                            350 <span class="text-lg font-normal text-white">UAH</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-white/80 mb-8">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Вхід до всіх 3-х зон виставки</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Інтерактивна взаємодія з генеративним артом</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Цифровий буклет-путівник</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openTicketModal('Standard Pass', 350)" class="w-full py-3.5 bg-brand-yellow hover:bg-brand-brightYellow text-brand-deeperPurple font-black rounded-xl uppercase tracking-wider text-sm transition-all shadow-neon">
+                        Обрати Квиток
+                    </button>
+                </div>
+
+                <!-- Ticket VIP -->
+                <div class="glass-panel p-8 rounded-2xl border-2 border-brand-yellow flex flex-col justify-between relative group hover:scale-[1.03] transition-all shadow-glow bg-gradient-to-b from-brand-purple/80 to-brand-deeperPurple">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-yellow text-brand-deeperPurple text-xs font-black rounded-full uppercase tracking-widest">
+                        Рекомендовано
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-brand-yellow text-brand-deeperPurple text-xs font-extrabold rounded-full uppercase">VIP / Media Pass</span>
+                            <i class="fas fa-star text-2xl text-brand-yellow"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white uppercase">VIP All-Access</h3>
+                        <p class="text-xs text-white/60 mb-6">Повний доступ на всі 3 дні + мерч-пак</p>
+
+                        <div class="text-4xl font-black text-brand-yellow mb-6">
+                            750 <span class="text-lg font-normal text-white">UAH</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-white/90 mb-8">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Необмежений вхід на 12-14 Жовтня</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Пріоритетний вхід без черги (Fast Track)</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Фірмовий сувенірний пак (бейдж + стікери)</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Доступ до майстер-класів</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openTicketModal('VIP All-Access', 750)" class="w-full py-3.5 bg-brand-yellow hover:bg-brand-brightYellow text-brand-deeperPurple font-black rounded-xl uppercase tracking-wider text-sm transition-all shadow-neon">
+                        Придбати VIP Pass
+                    </button>
+                </div>
+
+                <!-- Ticket Masterclass -->
+                <div class="glass-panel p-8 rounded-2xl border border-brand-yellow/30 flex flex-col justify-between relative group hover:border-brand-yellow hover:scale-[1.02] transition-all">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-brand-yellow/20 text-brand-yellow text-xs font-bold rounded-full border border-brand-yellow/30 uppercase">Compact / Special</span>
+                            <i class="fas fa-graduation-cap text-2xl text-brand-yellow"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white uppercase">Masterclass Pass</h3>
+                        <p class="text-xs text-white/60 mb-6">Вхід + Майстер-клас зі сторітелінгу</p>
+
+                        <div class="text-4xl font-black text-brand-yellow mb-6">
+                            500 <span class="text-lg font-normal text-white">UAH</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-white/80 mb-8">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Одноденний доступ до виставки</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Участь у воркшопі з генеративного звуку</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-yellow text-xs"></i> Сертифікат учасника YN</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openTicketModal('Masterclass Pass', 500)" class="w-full py-3.5 bg-brand-yellow hover:bg-brand-brightYellow text-brand-deeperPurple font-black rounded-xl uppercase tracking-wider text-sm transition-all shadow-neon">
+                        Обрати Квиток
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SOUVENIRS & MERCH SHOWCASE -->
+    <section id="merch" class="py-24 bg-brand-darkPurple/50 border-t border-brand-yellow/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
+                <div>
+                    <span class="text-brand-yellow text-xs font-mono uppercase tracking-widest">// Офіційний Сувенірний Мерч</span>
+                    <h2 class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">Колекція Yellow Noise</h2>
+                </div>
+                <p class="text-white/70 text-sm max-w-md mt-4 md:mt-0">
+                    Високоякісна атрибутика та брендований одяг з деталізованою вишивкою та шовкотрафаретним друком логотипу судна YN.
+                </p>
+            </div>
+
+            <!-- Merch Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Merch Item 1: Polo -->
+                <div class="glass-panel rounded-2xl p-5 border border-brand-yellow/30 hover:border-brand-yellow transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-full h-56 bg-brand-deeperPurple rounded-xl mb-4 overflow-hidden relative flex items-center justify-center p-4 border border-brand-yellow/20">
+                            <!-- SVG Representation of Merchandise Polo Shirt -->
+                            <svg class="w-36 h-36 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 200 200" fill="none">
+                                <path d="M40 50 L70 20 L130 20 L160 50 L140 70 L130 60 L130 180 L70 180 L70 60 L60 70 Z" fill="#4B22B9" stroke="#EFE46B" stroke-width="2"/>
+                                <path d="M85 20 L100 45 L115 20" stroke="#EFE46B" stroke-width="2" fill="none"/>
+                                <!-- YN Emblem Chevron -->
+                                <circle cx="115" cy="80" r="12" fill="#EFE46B"/>
+                                <text x="115" y="84" font-size="9" font-weight="bold" fill="#210c63" text-anchor="middle">YN</text>
+                            </svg>
+                            <span class="absolute top-3 left-3 bg-brand-yellow text-brand-deeperPurple text-[10px] font-bold px-2 py-0.5 rounded">Хіт продажів</span>
+                        </div>
+                        <h4 class="font-bold text-white text-lg">Фірмове Поло Yellow Noise</h4>
+                        <p class="text-xs text-white/60 mt-1">Бавовняна тканина піке, вишитий шеврон із золотим судном YN.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-brand-yellow font-black text-lg">1 200 UAH</span>
+                        <button onclick="showMerchToast('Фірмове Поло')" class="px-3 py-1.5 bg-brand-yellow/20 hover:bg-brand-yellow text-brand-yellow hover:text-brand-deeperPurple rounded-lg text-xs font-bold transition-all">Замовити</button>
+                    </div>
+                </div>
+
+                <!-- Merch Item 2: Tote Bag -->
+                <div class="glass-panel rounded-2xl p-5 border border-brand-yellow/30 hover:border-brand-yellow transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-full h-56 bg-brand-deeperPurple rounded-xl mb-4 overflow-hidden relative flex items-center justify-center p-4 border border-brand-yellow/20">
+                            <!-- SVG Tote Bag -->
+                            <svg class="w-36 h-36 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 200 200" fill="none">
+                                <path d="M80 30 C80 10, 120 10, 120 30" stroke="#EFE46B" stroke-width="4" fill="none"/>
+                                <rect x="50" y="50" width="100" height="120" rx="8" fill="#4B22B9" stroke="#EFE46B" stroke-width="2"/>
+                                <!-- Ship Icon -->
+                                <path d="M70 120 L130 120 L120 140 L80 140 Z" fill="#EFE46B"/>
+                                <text x="100" y="105" font-size="12" font-weight="black" fill="#EFE46B" text-anchor="middle">YELLOW NOISE</text>
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-white text-lg">Еко-сумка (Tote Bag)</h4>
+                        <p class="text-xs text-white/60 mt-1">Щільна бавовна, шовкотрафаретний принт великого лайнера.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-brand-yellow font-black text-lg">450 UAH</span>
+                        <button onclick="showMerchToast('Еко-сумка')" class="px-3 py-1.5 bg-brand-yellow/20 hover:bg-brand-yellow text-brand-yellow hover:text-brand-deeperPurple rounded-lg text-xs font-bold transition-all">Замовити</button>
+                    </div>
+                </div>
+
+                <!-- Merch Item 3: Yellow Mug -->
+                <div class="glass-panel rounded-2xl p-5 border border-brand-yellow/30 hover:border-brand-yellow transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-full h-56 bg-brand-deeperPurple rounded-xl mb-4 overflow-hidden relative flex items-center justify-center p-4 border border-brand-yellow/20">
+                            <!-- SVG Mug -->
+                            <svg class="w-36 h-36 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 200 200" fill="none">
+                                <rect x="60" y="60" width="70" height="90" rx="10" fill="#EFE46B"/>
+                                <path d="M130 80 C155 80, 155 120, 130 120" stroke="#EFE46B" stroke-width="6" fill="none"/>
+                                <text x="95" y="110" font-size="14" font-weight="black" fill="#210c63" text-anchor="middle">YN</text>
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-white text-lg">Фірмова Жовта Керамічна Кухоль</h4>
+                        <p class="text-xs text-white/60 mt-1">Неоново-жовте глазурування з гравіюванням логотипу.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-brand-yellow font-black text-lg">350 UAH</span>
+                        <button onclick="showMerchToast('Фірмова Кухоль')" class="px-3 py-1.5 bg-brand-yellow/20 hover:bg-brand-yellow text-brand-yellow hover:text-brand-deeperPurple rounded-lg text-xs font-bold transition-all">Замовити</button>
+                    </div>
+                </div>
+
+                <!-- Merch Item 4: Badge & Wristbands -->
+                <div class="glass-panel rounded-2xl p-5 border border-brand-yellow/30 hover:border-brand-yellow transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-full h-56 bg-brand-deeperPurple rounded-xl mb-4 overflow-hidden relative flex items-center justify-center p-4 border border-brand-yellow/20">
+                            <!-- SVG Wristband & Badge -->
+                            <svg class="w-36 h-36 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 200 200" fill="none">
+                                <rect x="40" y="70" width="120" height="20" rx="4" fill="#4B22B9" stroke="#EFE46B" stroke-width="2"/>
+                                <text x="100" y="84" font-size="8" font-weight="bold" fill="#EFE46B" text-anchor="middle">CREW ★ VIP ★ 2023</text>
+                                <rect x="75" y="100" width="50" height="60" rx="4" fill="#EFE46B"/>
+                                <circle cx="100" cy="110" r="4" fill="#13053d"/>
+                                <text x="100" y="135" font-size="10" font-weight="black" fill="#13053d" text-anchor="middle">YN PASS</text>
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-white text-lg">Набір: Бейдж + Браслет Crew</h4>
+                        <p class="text-xs text-white/60 mt-1">Текстильні браслети з метал-замком та фірмовий металевий значок.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-brand-yellow font-black text-lg">250 UAH</span>
+                        <button onclick="showMerchToast('Набір Бейдж+Браслет')" class="px-3 py-1.5 bg-brand-yellow/20 hover:bg-brand-yellow text-brand-yellow hover:text-brand-deeperPurple rounded-lg text-xs font-bold transition-all">Замовити</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LOCATION & VENUE MAP -->
+    <section id="location" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Location Details -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-brand-yellow text-xs font-mono uppercase tracking-widest">// Як нас найти</span>
+                    <h2 class="text-4xl font-black text-white uppercase tracking-tight">Локація та Маршрут</h2>
+                    
+                    <div class="space-y-4 pt-2">
+                        <div class="glass-panel p-5 rounded-xl border-l-4 border-l-brand-yellow flex items-start gap-4">
+                            <i class="fas fa-map-marked-alt text-2xl text-brand-yellow mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Адреса проведення</h4>
+                                <p class="text-sm text-white/80 mt-0.5">м. Київ, Проспект Степана Бандери, 22</p>
+                                <span class="text-xs text-brand-yellow/80 mt-1 inline-block">(Метро Почайна / Промзона арт-павільйону)</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-xl border-l-4 border-l-brand-yellow flex items-start gap-4">
+                            <i class="fas fa-globe text-2xl text-brand-yellow mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Офіційний веб-ресурс</h4>
+                                <a href="https://smashthewalls.com" target="_blank" class="text-sm text-brand-yellow underline font-mono hover:text-white transition-colors">
+                                    www.smashthewalls.com
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-xl border-l-4 border-l-brand-yellow flex items-start gap-4">
+                            <i class="fas fa-subway text-2xl text-brand-yellow mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Як дістатися</h4>
+                                <p class="text-sm text-white/80 mt-0.5">5 хвилин від метро "Почайна". Орієнтуйтеся за неоновими покажчиками "Yellow Noise".</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Simulated Styled Map -->
+                <div class="lg:col-span-7">
+                    <div class="glass-panel p-4 rounded-2xl border-2 border-brand-yellow/40 relative h-96 overflow-hidden flex items-center justify-center group">
+                        
+                        <!-- Map Decorative Canvas/Grid -->
+                        <div class="absolute inset-0 bg-[#0d032b] opacity-90 noise-bg flex items-center justify-center">
+                            <!-- Grid Overlay -->
+                            <svg class="w-full h-full opacity-30" width="100%" height="100%">
+                                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#4B22B9" stroke-width="1"/>
+                                </pattern>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                                <!-- Simulated Roads -->
+                                <path d="M -50 200 Q 200 150 600 220" stroke="#EFE46B" stroke-width="8" fill="none" opacity="0.6"/>
+                                <path d="M 300 -50 L 300 450" stroke="#4B22B9" stroke-width="12" fill="none"/>
+                            </svg>
+                        </div>
+
+                        <!-- Location Pin Indicator -->
+                        <div class="relative z-10 flex flex-col items-center animate-bounce">
+                            <div class="px-4 py-2 bg-brand-yellow text-brand-deeperPurple font-black text-xs rounded-lg shadow-neon uppercase tracking-wider mb-2">
+                                Yellow Noise Exhibition Hall
+                            </div>
+                            <div class="w-10 h-10 bg-brand-purple rounded-full border-4 border-brand-yellow flex items-center justify-center text-brand-yellow shadow-glow">
+                                <i class="fas fa-ship text-lg"></i>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-4 right-4 bg-brand-deeperPurple/90 px-3 py-1.5 rounded text-[11px] font-mono text-brand-yellow border border-brand-yellow/30">
+                            GPS: 50.4883° N, 30.4981° E
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-deeperPurple border-t border-brand-yellow/20 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-brand-yellow rounded flex items-center justify-center text-brand-deeperPurple font-bold">
+                        YN
+                    </div>
+                    <div>
+                        <span class="font-black text-lg text-brand-yellow uppercase">YELLOW NOISE</span>
+                        <p class="text-xs text-white/50">© 2026 Арт-виставка сучасної синестезії. Всі права захищено.</p>
+                    </div>
+                </div>
+
+                <div class="text-xs text-white/60 text-center md:text-right">
+                    <div>Проект підготовила: <span class="text-brand-yellow font-semibold">Милтанова Діана (Гд6-3-23-4.0д)</span></div>
+                    <div class="mt-1 font-mono text-white/40">www.smashthewalls.com</div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE TICKET ORDER MODAL -->
+    <div id="ticketModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-brand-deeperPurple/80 backdrop-blur-md">
+        <div class="glass-panel max-w-md w-full p-8 rounded-2xl border-2 border-brand-yellow shadow-2xl relative animate-glow">
+            
+            <button onclick="closeTicketModal()" class="absolute top-4 right-4 text-white/60 hover:text-brand-yellow text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h3 class="text-2xl font-black text-brand-yellow uppercase mb-1">Замовлення Квитка</h3>
+            <p id="modalCategoryName" class="text-sm font-bold text-white mb-6">Standard Pass</p>
+
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-white/80 uppercase mb-1">Ваше Ім'я та Прізвище</label>
+                    <input type="text" required placeholder="Олександр Коваленко" class="w-full px-4 py-2.5 rounded-lg bg-brand-deeperPurple/90 border border-brand-yellow/30 text-white focus:outline-none focus:border-brand-yellow text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-white/80 uppercase mb-1">Email для отримання квитка</label>
+                    <input type="email" required placeholder="your@email.com" class="w-full px-4 py-2.5 rounded-lg bg-brand-deeperPurple/90 border border-brand-yellow/30 text-white focus:outline-none focus:border-brand-yellow text-sm">
+                </div>
+
+                <div class="flex justify-between items-center py-2">
+                    <span class="text-xs font-bold text-white/80 uppercase">Кількість квитків:</span>
+                    <div class="flex items-center space-x-3 bg-brand-deeperPurple px-3 py-1 rounded-lg border border-brand-yellow/30">
+                        <button type="button" onclick="adjustTicketCount(-1)" class="text-brand-yellow font-black text-lg px-2">-</button>
+                        <span id="ticketQuantity" class="font-bold text-white text-base">1</span>
+                        <button type="button" onclick="adjustTicketCount(1)" class="text-brand-yellow font-black text-lg px-2">+</button>
+                    </div>
+                </div>
+
+                <!-- Total Calculated Price -->
+                <div class="p-4 bg-brand-deeperPurple/80 rounded-xl border border-brand-yellow/20 flex justify-between items-center my-4">
+                    <span class="text-sm font-bold text-white">Загальна вартість:</span>
+                    <span id="modalTotalPrice" class="text-2xl font-black text-brand-yellow">350 UAH</span>
+                </div>
+
+                <!-- Simulated QR Code Preview -->
+                <div class="flex items-center gap-3 p-3 bg-brand-purple/40 rounded-lg text-xs text-white/80 border border-brand-yellow/20">
+                    <i class="fas fa-qrcode text-3xl text-brand-yellow"></i>
+                    <span>Електронний квиток із QR-кодом буде надіслано на вказану пошту після підтвердження.</span>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-brand-yellow hover:bg-brand-brightYellow text-brand-deeperPurple font-black rounded-xl uppercase tracking-wider text-sm shadow-neon transition-all mt-4">
+                    Підтвердити та Оплатити
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-32 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-brand-yellow text-brand-deeperPurple font-bold px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 border-2 border-white">
+            <i class="fas fa-check-circle text-xl"></i>
+            <span id="toastMessage">Дія успішно виконана!</span>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        // --- Mobile Navigation Menu Toggle ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Interactive Canvas Synesthesia Generator Logic ---
+        const canvas = document.getElementById('synesthesiaCanvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+        let waveMode = 0; // Modes: 0 = Sound Waves, 1 = Particles/Sparks
+
+        function resizeCanvas() {
+            if (canvas.parentElement) {
+                canvas.width = canvas.parentElement.clientWidth;
+                canvas.height = canvas.parentElement.clientHeight || 320;
+            }
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function addPoint(x, y) {
+            points.push({
+                x: x,
+                y: y,
+                radius: 5,
+                maxRadius: 60 + Math.random() * 40,
+                alpha: 1,
+                color: waveMode === 0 ? '#EFE46B' : '#4B22B9',
+                speed: 1.5 + Math.random() * 2
+            });
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            if (e.buttons === 1 || Math.random() < 0.2) {
+                addPoint(e.clientX - rect.left, e.clientY - rect.top);
+            }
+        });
+
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            for (let i = 0; i < 5; i++) {
+                addPoint(e.clientX - rect.left + (Math.random() * 30 - 15), e.clientY - rect.top + (Math.random() * 30 - 15));
+            }
+            playSynthPulse();
+        });
+
+        function clearCanvas() {
+            points = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function changeWaveMode() {
+            waveMode = (waveMode + 1) % 2;
+            showToast(waveMode === 0 ? "Режим: Звукові неонові хвилі" : "Режим: Електричний імпульс");
+        }
+
+        function drawCanvas() {
+            ctx.fillStyle = 'rgba(19, 5, 61, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < points.length; i++) {
+                let p = points[i];
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                p.radius += p.speed;
+                p.alpha -= 0.02;
+
+                if (p.alpha <= 0) {
+                    points.splice(i, 1);
+                    i--;
+                }
+            }
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(drawCanvas);
+        }
+        drawCanvas();
+
+        // --- Web Audio API Synesthesia Sound Synthesizer ---
+        let audioCtx = null;
+        let isSoundOn = false;
+
+        function toggleAudioSynthesizer() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            isSoundOn = !isSoundOn;
+            const soundIcon = document.getElementById('soundIcon');
+            const soundText = document.getElementById('soundText');
+
+            if (isSoundOn) {
+                soundIcon.className = "fas fa-volume-up text-base";
+                if(soundText) soundText.innerText = "Звук Увімкнено";
+                showToast("Аудіопотік виставки увімкнено (432Hz Ambient)");
+                playSynthPulse();
+            } else {
+                soundIcon.className = "fas fa-volume-mute text-base";
+                if(soundText) soundText.innerText = "Звук Виставки";
+                showToast("Звук вимкнено");
+            }
+        }
+
+        function playSynthPulse() {
+            if (!isSoundOn || !audioCtx) return;
+            
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                // Generates pleasant ambient atmospheric frequency
+                osc.frequency.setValueAtTime(220 + Math.random() * 220, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 1.2);
+            } catch(e) {
+                console.log("Audio play blocked by browser interaction policy");
+            }
+        }
+
+        // --- Ticket Modal Logic ---
+        let currentTicketPrice = 350;
+        let currentQuantity = 1;
+
+        function openTicketModal(categoryName, price) {
+            currentTicketPrice = price;
+            currentQuantity = 1;
+            document.getElementById('modalCategoryName').innerText = categoryName;
+            document.getElementById('ticketQuantity').innerText = currentQuantity;
+            updateModalPrice();
+            document.getElementById('ticketModal').classList.remove('hidden');
+        }
+
+        function closeTicketModal() {
+            document.getElementById('ticketModal').classList.add('hidden');
+        }
+
+        function adjustTicketCount(delta) {
+            if (currentQuantity + delta >= 1) {
+                currentQuantity += delta;
+                document.getElementById('ticketQuantity').innerText = currentQuantity;
+                updateModalPrice();
+            }
+        }
+
+        function updateModalPrice() {
+            const total = currentTicketPrice * currentQuantity;
+            document.getElementById('modalTotalPrice').innerText = total + " UAH";
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            closeTicketModal();
+            showToast("Квиток успішно заброньовано! Деталі надіслано на вашу пошту.");
+            playSynthPulse();
+        }
+
+        // --- Toast Notifications ---
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 3500);
+        }
+
+        function showMerchToast(itemName) {
+            showToast(`Товар "${itemName}" додано до замовлення!`);
+            playSynthPulse();
+        }
+    </script>
+</body>
+</html>
